@@ -21,26 +21,20 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
-        lint: [check, test, clippy, fmt]
+        os: [ubuntu-22.04, windows-2022, macOS-14]
+        lint: [clippy, test, fmt]
         exclude: # https://github.com/community/community/discussions/7835
-          - os: windows-latest
-            lint: clippy
-          - os: windows-latest
+          - os: windows-2022
             lint: fmt
-          - os: macOS-latest
-            lint: clippy
-          - os: macOS-latest
+          - os: macOS-14
             lint: fmt
         include:
-          - lint: check
-            args: " --all-features"
+          - lint: clippy
+            args: " --all-features -- -D clippy::all -W clippy::style"
           - lint: test
             args: ""
-          - lint: clippy
-            args: " --all --all-features"
           - lint: fmt
-            args: " --all -- --check"
+            args: " -- --check"
     steps:
       - uses: actions/checkout@v4
       - uses: rui314/setup-mold@v1 # faster linker
@@ -61,7 +55,7 @@ jobs:
 
   coverage:
     name: coverage
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
@@ -70,8 +64,6 @@ jobs:
           mkdir -p "${HOME}/.local/bin"
           curl -sL https://github.com/mozilla/grcov/releases/download/v0.8.19/grcov-x86_64-unknown-linux-gnu.tar.bz2 | tar jxf - -C "${HOME}/.local/bin"
           echo "$HOME/.local/bin" >> $GITHUB_PATH
-      - name: Set up DeepSource CLI
-        run: curl https://deepsource.io/cli | sh
       - name: Install LLVM-profdata
         run: rustup component add llvm-tools-preview
       - name: Run tests
@@ -80,7 +72,3 @@ jobs:
         run: mkdir ./target/coverage
       - name: Run GRCOV
         run: grcov . --binary-path ./target/debug/ -s . -t lcov --branch --ignore-not-existing --ignore '../*' --ignore "/*" -o ./target/coverage/tests.lcov
-      - name: Upload to DeepSource
-        env:
-          DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
-        run: ./bin/deepsource report --analyzer test-coverage --key rust --value-file ./target/coverage/tests.lcov
