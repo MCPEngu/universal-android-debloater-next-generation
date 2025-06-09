@@ -5636,7 +5636,7 @@
   },
   "com.sec.android.QRreader": {
     "list": "Oem",
-    "description": "Samsung QR code reader\nAllows you to scan QR codes using Camera app.\nhttps://www.samsung.com/latin_en/support/mobile-devices/how-to-use-the-qr-code-reader/\n",
+    "description": "Samsung QR code reader.\nAllows you to scan QR codes using Camera app.",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
