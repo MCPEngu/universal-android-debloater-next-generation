@@ -5640,7 +5640,7 @@
     "dependencies": [],
     "neededBy": [],
     "labels": [],
-    "removal": "Recommended"
+    "removal": "Advanced"
   },
   "com.sec.android.providers.security": {
     "list": "Oem",
@@ -6272,7 +6272,7 @@
     "dependencies": [],
     "neededBy": [],
     "labels": [],
-    "removal": "Advanced"
+    "removal": "Expert"
   },
   "com.samsung.android.bluelightfilter": {
     "list": "Oem",
