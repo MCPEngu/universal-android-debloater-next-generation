@@ -5640,7 +5640,7 @@
     "dependencies": [],
     "neededBy": [],
     "labels": [],
-    "removal": "Advanced"
+    "removal": "Recommended"
   },
   "com.sec.android.providers.security": {
     "list": "Oem",
